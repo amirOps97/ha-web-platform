@@ -1,0 +1,9 @@
+---
+- name: Detect containerised host
+  ansible.builtin.set_fact:
+    common_is_container: >-
+      {{ ansible_virtualization_type in ['docker', 'container', 'containerd', 'podman', 'lxc'] }}
+
+- name: Report execution environment
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }} | {{ ansible_distribution }} {{ ansible_distribution_version }} | {{ ansible_architecture }} | container={{ common_is_container }}"

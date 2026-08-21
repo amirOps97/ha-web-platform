@@ -1,0 +1,8 @@
+PermitRootLogin {{ common_ssh_permit_root_login }}
+PasswordAuthentication {{ 'yes' if common_ssh_password_auth else 'no' }}
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries {{ common_ssh_max_auth_tries }}
+X11Forwarding no
+ClientAliveInterval 300
+ClientAliveCountMax 2

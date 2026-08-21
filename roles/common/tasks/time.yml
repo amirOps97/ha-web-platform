@@ -1,0 +1,35 @@
+---
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ common_timezone }}"
+  when: not common_is_container
+
+- name: Install chrony
+  ansible.builtin.package:
+    name: chrony
+    state: present
+
+- name: Remove conflicting timesyncd
+  ansible.builtin.systemd_service:
+    name: systemd-timesyncd
+    enabled: false
+    state: stopped
+    masked: true
+  failed_when: false
+  when: not common_is_container
+
+- name: Configure NTP sources
+  ansible.builtin.template:
+    src:  ntp.conf.j2
+    dest: /etc/chrony/conf.d/ntp.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart chrony
+
+- name: Enable chrony
+  ansible.builtin.systemd_service:
+    name: chrony
+    enabled: true
+    state: started
+  when: not common_is_container

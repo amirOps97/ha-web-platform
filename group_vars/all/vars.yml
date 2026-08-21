@@ -1,0 +1,2 @@
+haproxy_stats_password: "{{ vault_haproxy_stats_password }}"
+grafana_admin_password: "{{ vault_grafana_admin_password }}"

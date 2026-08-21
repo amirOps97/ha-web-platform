@@ -1,0 +1,31 @@
+---
+- import_tasks: facts.yml
+  tags: [always]
+
+- import_tasks: packages.yml
+  tags: [common, packages]
+
+- import_tasks: users.yml
+  tags: [common, users]
+
+- import_tasks: time.yml
+  tags: [common, time]
+
+- import_tasks: hosts.yml
+  when: common_manage_etc_hosts | bool
+  tags: [common, hosts]
+
+- import_tasks: sysctl.yml
+  when:
+    - common_sysctl_tuning | bool
+    - not common_is_container
+  tags: [common, sysctl]
+
+- import_tasks: ssh.yml
+  tags: [common, ssh]
+
+- import_tasks: firewall.yml
+  when:
+    - common_manage_firewall | bool
+    - not common_is_container
+  tags: [common, firewall]

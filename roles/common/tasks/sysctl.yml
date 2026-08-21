@@ -1,0 +1,7 @@
+---
+- name: Apply kernel tuning
+  ansible.builtin.template:
+    src: kernel-tuning.conf.j2
+    dest: /etc/sysctl.d/kernel-tuning.conf
+    mode: "0644"
+  notify: Reload sysctl

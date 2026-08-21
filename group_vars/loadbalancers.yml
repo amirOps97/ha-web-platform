@@ -1,0 +1,1 @@
+common_firewall_allowed_tcp: [22, 80, 443, 8404]

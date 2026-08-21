@@ -1,0 +1,4 @@
+{% for server in common_ntp_servers %}
+pool {{ server }} iburst maxsources 3
+{% endfor %}
+makestep 1.0 3

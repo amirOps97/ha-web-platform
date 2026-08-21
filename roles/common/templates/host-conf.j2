@@ -1,0 +1,12 @@
+127.0.0.1 localhost
+127.0.1.1 {{ inventory_hostname }}
+
+# Managed by Ansible — lab inventory
+{% for host in groups['all'] | sort %}
+{{ hostvars[host].ansible_host }} {{ host }}
+{% endfor %}
+{% if vip_address is defined %}
+{{ vip_address }} vip.lab.local
+{% endif %}
+
+::1 localhost ip6-localhost ip6-loopback
