@@ -1,0 +1,29 @@
+[Unit]
+Description={{ app_name }} application
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User={{ app_user }}
+Group={{ app_group }}
+WorkingDirectory={{ app_root }}/current
+Environment="APP_VERSION={{ app_version }}"
+Environment="APP_HEALTH_FLAG={{ app_health_flag }}"
+ExecStart={{ app_root }}/venv/bin/gunicorn \
+    --workers {{ app_workers }} \
+    --bind {{ app_listen_address }}:{{ app_listen_port }} \
+    --access-logfile - \
+    app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=3
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths={{ app_root }}
+
+[Install]
+WantedBy=multi-user.target
