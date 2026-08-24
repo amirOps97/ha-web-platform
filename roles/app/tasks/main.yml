@@ -28,7 +28,7 @@
     - /etc/hawp
 
 - name: Install python venv tooling
-  ansible.builtin.pakcage:
+  ansible.builtin.package:
     name: [python3-venv, python3-pip]
     state: present
 

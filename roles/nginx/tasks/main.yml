@@ -1,6 +1,6 @@
 ---
 - name: Install Nginx
-  ansible.builtin.nginx:
+  ansible.builtin.package:
     name: nginx
     state: present
 
@@ -10,10 +10,20 @@
     state: absent
   notify: reload nginx
 
+
+- name: Deploy tuning snippet
+  ansible.builtinj.template:
+    src: tuning.conf.j2
+    dest: /etc/nginx/conf.d/tune.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx
+
 - name: Deploy application vhost
-  ansible.builtin.template:
+  ansible.builtinj.template:
     src: app.conf.j2
-    dest: /etc/nginx/conf.d/10-app.conf
+    dest: /etc/nginx/conf.d/app.conf
     owner: root
     group: root
     mode: "0644"
