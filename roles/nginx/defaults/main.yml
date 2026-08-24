@@ -1,3 +1,9 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# defaults file for nginx
+nginx_server_name: _
+nginx_listen_port: 80
+nginx_upstream_host: "127.0.0.1"
+nginx_upstream_port: 8000
+nginx_worker_connections: 2048
+nginx_client_max_body_size: 10m
+nginx_trusted_proxies: []
+nginx_status_allow: ["127.0.0.1"]

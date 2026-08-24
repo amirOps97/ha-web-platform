@@ -4,3 +4,10 @@
   become: true
   roles:
     - common
+
+- name: Configure web tier
+  hosts: webservers
+  become: true
+  roles:
+    - app
+    - nginx

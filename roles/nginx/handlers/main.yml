@@ -1,3 +1,12 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# handlers file for nginx
+- name: Reload nginx
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: reloaded
+  when: not common_is_container
+
+- name: Restart nginx
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: restarted
+  when: not common_is_container   s
