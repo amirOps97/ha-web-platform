@@ -69,15 +69,15 @@
     - Reload systemd
     - Restart app
 
+- name: Flush handlers before starting service
+  ansible.builtin.meta: flush_handlers
 
 - name: Enable and start app
   ansible.builtin.systemd_service:
     name: "{{ app_name }}"
     enabled: true
     state: started
-    daemon_reload: true
   when: not common_is_container
-
 
 - name: Wait for app to accept connections
   ansible.builtin.wait_for:
