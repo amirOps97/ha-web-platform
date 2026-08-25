@@ -8,22 +8,22 @@
   ansible.builtin.file:
     path: "/etc/nginx/sites-enabled/default"
     state: absent
-  notify: reload nginx
+  notify: Reload nginx
 
 
 - name: Deploy tuning snippet
   ansible.builtin.template:
     src: tuning.conf.j2
-    dest: /etc/nginx/conf.d/tune.conf
+    dest: /etc/nginx/conf.d/00-tune.conf
     owner: root
     group: root
     mode: "0644"
   notify: Reload nginx
 
 - name: Deploy application vhost
-  ansible.builtinj.template:
+  ansible.builtin.template:
     src: app.conf.j2
-    dest: /etc/nginx/conf.d/app.conf
+    dest: /etc/nginx/conf.d/10-app.conf
     owner: root
     group: root
     mode: "0644"
