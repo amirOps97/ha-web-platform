@@ -2,12 +2,25 @@
 - name: Baseline all hosts
   hosts: all
   become: true
+  tags: [baseline]
+  pre_tasks:
+    - name: Gather facts
+      ansible.builtin.setup:
+      tags: [always]
   roles:
     - common
 
 - name: Configure web tier
   hosts: webservers
   become: true
+  tags: [web]
   roles:
     - app
     - nginx
+
+- name: Configure load balancer tier
+  hosts: loadbalancers
+  tags: [lb]
+  become: true
+  roles:
+    - haproxy

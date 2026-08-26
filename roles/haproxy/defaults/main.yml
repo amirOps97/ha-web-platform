@@ -1,3 +1,22 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# defaults file for haproxy
+haproxy_backend_group: webservers
+haproxy_backend_port: 80
+haproxy_backend_name: web_backend
+
+haproxy_bind_address: "0.0.0.0"
+haproxy_http_port: 80
+
+haproxy_health_uri: /healthz
+haproxy_check_interval: 2s
+haproxy_check_fall: 3
+haproxy_check_rise: 2
+
+haproxy_balance_algorithm: roundrobin
+haproxy_maxconn: 4096
+
+haproxy_stats_enable: true
+haproxy_stats_port: 8404
+haproxy_stats_uri: /stats
+haproxy_stats_user: admin
+
+haproxy_socket_path: /run/haproxy/admin.sock
