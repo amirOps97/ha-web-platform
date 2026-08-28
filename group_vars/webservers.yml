@@ -1,1 +1,8 @@
+---
 common_firewall_allowed_tcp: [22, 80]
+
+nginx_trusted_proxies: >-
+  {{ groups['loadbalancers'] | map('extract', hostvars, 'ansible_host') | list }}
+nginx_status_allow:
+  - 127.0.0.1
+  - 192.168.142.1

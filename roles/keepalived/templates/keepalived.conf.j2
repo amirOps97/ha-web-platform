@@ -1,0 +1,34 @@
+global_defs {
+    router_id {{ inventory_hostname }}
+    script_user root
+    enable_script_security
+}
+
+vrrp_script check_haproxy {
+    script "{{ keepalived_check_script }}"
+    interval {{ keepalived_check_interval }}
+    fall {{ keepalived_check_fall }}
+    rise {{ keepalived_check_rise }}
+    weight {{ keepalived_check_weight }}
+}
+
+vrrp_instance VI_1 {
+    state {{ keepalived_state }}
+    interface {{ keepalived_interface }}
+    virtual_router_id {{ keepalived_virtual_router_id }}
+    priority {{ keepalived_priority }}
+    advert_int {{ keepalived_advert_int }}
+
+    authentication {
+        auth_type PASS
+        auth_pass {{ keepalived_auth_pass }}
+    }
+
+    virtual_ipaddress {
+        {{ keepalived_vip }}/{{ keepalived_vip_cidr }} dev {{ keepalived_interface }}
+    }
+
+    track_script {
+        check_haproxy
+    }
+}

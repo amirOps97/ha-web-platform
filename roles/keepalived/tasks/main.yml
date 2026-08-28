@@ -1,3 +1,34 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# tasks file for keepalived
+- name: Install keepalived
+  ansible.builtin.apt:
+    name: [keepalived, psmisc]
+    state: present
+    lock_timeout: 300
+
+- name: Deploy haproxy check script
+  ansible.builtin.copy:
+    src: check_haproxy.sh
+    dest: "{{ keepalived_check_script }}"
+    owner: root
+    group: root
+    mode: "0755"
+  notify: Restart keepalived
+
+- name: Deploy keepalived configuration
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: "0640"
+    backup: true
+  notify: Restart keepalived
+
+- name: Allow all traffic from peer load balancers
+  community.general.ufw:
+    rule: allow
+    src: "{{ item }}"
+  loop: "{{ groups['loadbalancers'] | map('extract', hostvars, 'ansible_host') | list }}"
+  when: item != ansible_host
+    
+

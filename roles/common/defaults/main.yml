@@ -16,6 +16,7 @@ common_base_packages:
   - tcpdump
   - unattended-upgrades
   - vim
+  - socat
 
 common_admin_users:
   - name: deploy
